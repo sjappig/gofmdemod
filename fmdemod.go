@@ -1,4 +1,4 @@
-package main
+package fmdemod
 
 import (
     "bufio"
@@ -11,7 +11,7 @@ import (
 const SampleCount = 8192
 
 func fmDemodulation(currSample, prevSample complex128) float64 {
-    return cmplx.Phase(currSample * cmplx.Conj(prevSample)) / math.Pi
+    return cmplx.Phase(currSample * cmplx.Conj(prevSample)) / (2 * math.Pi)
 }
 
 func toComplex128(re, im uint8) complex128 {
@@ -19,9 +19,10 @@ func toComplex128(re, im uint8) complex128 {
 }
 
 func quantizeToUint16(value float64) uint16 {
-    value = math.Max(value, -1)
-    value = math.Min(value, 1)
-    return uint16((value + 1) * 32768)
+    value = value * 32768
+    value = math.Max(value, -32768)
+    value = math.Min(value, 32767)
+    return uint16(value + 32768)
 }
 
 func toLittleEndianBytes(value uint16) (byte, byte) {
