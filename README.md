@@ -1,6 +1,11 @@
 # FM demodulation in Go
 
-Requires rtlsdr.
+Reads complex uint8 (re, im) from stdin, outputs UQ16 (unsigned fixed point, 16 fraction bits).
+
+## Receiving radio broadcast
+
+Requires rtlsdr (software and a receiver dongle) and sox (for audio output). For oneliner without
+server-client-architecture, drop the *nc* and just pipe the output of the demodulator to *play*.
 
 Server:
 
